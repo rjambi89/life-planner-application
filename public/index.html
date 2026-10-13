@@ -203,7 +203,7 @@ select{font-family:inherit;font-size:16px;border:1px solid var(--lav);border-rad
 .done-card p{color:var(--deep)}
 pre.out{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--bg);border-radius:12px;padding:12px 16px;max-height:200px;overflow:auto;font-family:inherit;font-size:13px;margin:0}
 
-footer{border-top:0.5px solid var(--lav);padding-top:16px;font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+footer{border-top:0.5px solid var(--line);padding-top:16px;font-size:14px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
 .toast{position:fixed;inset-inline:0;bottom:calc(24px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;pointer-events:none;z-index:5}
 .toast span{background:var(--gold);color:var(--text);font-weight:600;border-radius:999px;padding:10px 22px;transition:opacity .3s,transform .3s}
 .toast span.hide{opacity:0;transform:translateY(8px)}
@@ -559,7 +559,7 @@ function decode(s){return JSON.parse(decodeURIComponent(escape(atob(s.trim()))))
 var app=document.getElementById('app');
 function render(){
   var body={dash:dashHTML,assess:assessHTML,results:resultsHTML,plan:planHTML,review:reviewHTML,min:minHTML,edit:editHTML,goal:goalHTML,help:helpHTML}[V.view]();
-  var foot='<footer><div class="row between"><p>مخطط الحياة</p><button class="btn-text" data-a="help">المساعدة والأسئلة الشائعة</button></div><p>بياناتك محفوظة على هذا المتصفح فقط، ولا يراها أحد غيرك.'+(storageOk?'':' الحفظ غير متاح في هذا المتصفح، لذلك احفظ نسخة احتياطية قبل إغلاق الصفحة.')+'</p></footer>';
+  var foot='<footer><button class="btn-text" data-a="help">المساعدة والأسئلة الشائعة</button><p class="small muted">بياناتك محفوظة على هذا المتصفح فقط، ولا يراها أحد غيرك.'+(storageOk?'':' الحفظ غير متاح في هذا المتصفح، لذلك احفظ نسخة احتياطية قبل إغلاق الصفحة.')+'</p></footer>';
   app.innerHTML=headerHTML()+body+foot;
 }
 function go(view){V.view=view;render();window.scrollTo(0,0)}
