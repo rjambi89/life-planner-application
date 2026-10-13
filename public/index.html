@@ -108,6 +108,7 @@ header{display:flex;flex-direction:column;gap:4px}
 .abody{display:flex;flex-direction:column;gap:16px;padding:0 20px 20px;border-top:0.5px solid var(--line);padding-top:16px}
 .steps-list{margin:8px 0 0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px;font-size:15px}
 .steps-list b{font-weight:500;color:var(--deep)}
+.steps-list bdi{color:var(--muted);font-size:14px}
 .faq{display:flex;flex-direction:column}
 .faq details{border-top:0.5px solid var(--line);padding:4px 0}
 .faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:48px;font-weight:500;color:var(--deep)}
@@ -529,9 +530,9 @@ function helpHTML(){
    ['كيف أبدأ من جديد؟','من أسفل صفحة مجالات حياتي، اضغط "حذف بياناتي". احفظ نسخة احتياطية قبلها إن أردت الرجوع إليها.']
   ];
   var h='<h2>المساعدة</h2>';
-  h+='<div class="card"><h3>أضف مخطط الحياة لشاشتك الرئيسية</h3><p class="small muted">ليفتح كتطبيق بأيقونته، بدون شريط المتصفح.</p>';
-  h+='<div class="grid2"><div class="lever"><span>آيفون</span><ol class="steps-list"><li>افتح الرابط في <b>سفاري</b>.</li><li>اضغط زر المشاركة أسفل الشاشة (مربع وفوقه سهم).</li><li>اختر <b>إضافة إلى الشاشة الرئيسية</b>.</li><li>اضغط <b>إضافة</b>.</li></ol></div>';
-  h+='<div class="lever"><span>أندرويد</span><ol class="steps-list"><li>افتح الرابط في <b>كروم</b>.</li><li>اضغط القائمة ⋮ أعلى الشاشة.</li><li>اختر <b>تثبيت التطبيق</b> أو <b>إضافة إلى الشاشة الرئيسية</b>.</li><li>أكّد الإضافة.</li></ol></div></div>';
+  h+='<div class="card"><h3>أضف مخطط الحياة لشاشتك الرئيسية</h3><p class="small muted">ليفتح كتطبيق بأيقونته، بدون شريط المتصفح. إذا وصلك الرابط في واتساب، اضغط عليه ضغطة طويلة وانسخه، ثم الصقه في المتصفح.</p>';
+  h+='<div class="grid2"><div class="lever"><span>آيفون</span><ol class="steps-list"><li>افتح الرابط في <b>سفاري</b> <bdi dir="ltr">(Safari)</bdi> أو <b>كروم</b> <bdi dir="ltr">(Chrome)</bdi>، وليس داخل واتساب.</li><li>اضغط زر <b>المشاركة</b> <bdi dir="ltr">(Share)</bdi>: مربع وفوقه سهم.</li><li>اختر <b>إضافة إلى الشاشة الرئيسية</b> <bdi dir="ltr">(Add to Home Screen)</bdi>.</li><li>اضغط <b>إضافة</b> <bdi dir="ltr">(Add)</bdi>.</li></ol></div>';
+  h+='<div class="lever"><span>أندرويد</span><ol class="steps-list"><li>افتح الرابط في <b>كروم</b> <bdi dir="ltr">(Chrome)</bdi>.</li><li>اضغط <b>القائمة</b> ⋮ أعلى الشاشة.</li><li>اختر <b>تثبيت التطبيق</b> <bdi dir="ltr">(Install app)</bdi> أو <b>إضافة إلى الشاشة الرئيسية</b> <bdi dir="ltr">(Add to Home screen)</bdi>.</li><li>اضغط <b>تثبيت</b> <bdi dir="ltr">(Install)</bdi> أو <b>إضافة</b> <bdi dir="ltr">(Add)</bdi>.</li></ol></div></div>';
   h+='<div class="card soft"><p><b style="font-weight:500">مهم:</b> البيانات داخل التطبيق منفصلة عن بيانات المتصفح. أضف الأداة لشاشتك قبل أن تبدأ، ثم افتحها دائمًا من الأيقونة. إذا بدأت في المتصفح، انقل بياناتك برمز النسخة الاحتياطية.</p></div></div>';
   h+='<div class="card"><h3>أسئلة شائعة</h3><div class="faq">'+faq.map(function(f){return '<details><summary>'+f[0]+'</summary><p>'+f[1]+'</p></details>'}).join('')+'</div></div>';
   h+='<div><button class="btn btn-ghost" data-a="cancel">رجوع</button></div>';
