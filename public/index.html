@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مخطط الحياة</title>
+<meta name="description" content="قيّم مجالات حياتك، واكتشف عنق الزجاجة، وتابع أهدافك من الغاية إلى هذا الأسبوع.">
+<meta name="theme-color" content="#F5EEF4">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="مخطط الحياة">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px);background:#F5EEF4}body{margin:0;padding:0;-webkit-text-size-adjust:100%}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<style>
+/* Layout: one calm column; the bottleneck card leads, the four-area life map sits beneath it. Light-only by brand rule (DESIGN.md). */
+:root{
+  --purple:#653CAD; --deep:#3E2470; --gold:#F7C364; --lav:#E6DDF3; --mauve:#C9A0C4;
+  --bg:#F5EEF4; --surface:#FFFFFF; --text:#2A2433; --muted:#6B6475; --inset:#FAF6F9; --line:#EADCE7;
+  --font:"IBM Plex Sans Arabic", system-ui, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.7}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:16px;padding-block:24px 56px;display:flex;flex-direction:column;gap:24px}
+h1,h2,h3,p{margin:0}
+h1{font-size:clamp(26px,5vw,36px);font-weight:600;color:var(--purple);line-height:1.2;text-wrap:balance}
+h2{font-size:clamp(20px,3.6vw,24px);font-weight:500;color:var(--purple);line-height:1.4;text-wrap:balance}
+h3{font-size:18px;font-weight:500;color:var(--deep);line-height:1.4}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+header{display:flex;flex-direction:column;gap:4px}
+.card{background:var(--surface);border:0.5px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.soft{background:var(--lav);border:none}
+.soft h3,.soft p{color:var(--deep)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.between{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:720px){.grid2{grid-template-columns:1fr 1fr}}
+
+.btn{font-family:inherit;font-size:16px;font-weight:600;border-radius:999px;min-height:48px;padding:0 24px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-gold{background:var(--gold);color:var(--text)}
+.btn-purple{background:var(--purple);color:#fff}
+.btn-ghost{background:transparent;color:var(--purple);border:1px solid var(--lav)}
+.btn-text{background:none;border:none;color:var(--purple);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;padding:8px 0;text-decoration:underline;text-underline-offset:4px}
+.btn:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:2px solid var(--purple);outline-offset:3px}
+
+.badge{display:inline-flex;align-items:center;background:var(--purple);color:#fff;border-radius:999px;padding:2px 14px;font-size:14px;font-weight:500;width:fit-content}
+.tag{display:inline-flex;background:var(--lav);color:var(--deep);border-radius:999px;padding:0 12px;font-size:13px;font-weight:500}
+
+.track{height:8px;background:var(--lav);border-radius:999px;overflow:hidden}
+.track>span{display:block;height:100%;background:var(--purple);border-radius:999px;transition:width .4s}
+.track.thick{height:14px}
+.track.gold>span{background:var(--gold)}
+
+.demo{background:var(--lav);border-radius:12px;padding:16px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.demo p{color:var(--deep);font-weight:500}
+
+/* level strip */
+.level{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.disc{width:64px;height:64px;border-radius:50%;background:var(--gold);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid var(--surface);outline:1px solid var(--gold);line-height:1.1}
+.disc b{font-size:24px;font-weight:600}
+.disc small{font-size:11px}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;background:var(--surface);border:0.5px solid var(--line);border-radius:24px;padding:4px;width:fit-content;max-width:100%}
+.tabs button{font-family:inherit;font-size:15px;font-weight:500;border:none;background:none;color:var(--deep);border-radius:999px;min-height:40px;padding:0 14px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--purple);color:#fff}
+.cascade{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.cascade>li{position:relative;padding-inline-start:28px;padding-bottom:16px}
+.cascade>li::before{content:"";position:absolute;inset-inline-start:7px;top:28px;bottom:-4px;border-inline-start:1px solid var(--mauve)}
+.cascade>li:last-child::before{display:none}
+.cascade>li::after{content:"";position:absolute;inset-inline-start:0;top:22px;width:15px;height:15px;border-radius:50%;background:var(--surface);border:1.5px solid var(--purple);box-sizing:border-box}
+.cascade>li.now::after{background:var(--purple)}
+.gk{font-size:14px;color:var(--purple);font-weight:500}
+.gt{font-size:17px;font-weight:500;color:var(--deep)}
+.gempty{color:var(--muted);font-size:15px}
+.todo{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center}
+.todo input[type=checkbox]{width:22px;height:22px;accent-color:var(--purple);margin:0}
+.todo input[type=text]{border-color:var(--line)}
+.todo.done input[type=text]{color:var(--muted);text-decoration:line-through}
+.todo .x{background:none;border:none;color:var(--muted);font-size:20px;line-height:1;cursor:pointer;min-width:32px;min-height:32px;border-radius:999px}
+.days{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.day{font-family:inherit;flex:none;display:flex;flex-direction:column;align-items:center;gap:0;border:1px solid var(--line);background:var(--surface);color:var(--deep);border-radius:12px;padding:6px 10px;min-width:58px;cursor:pointer;font-size:13px;line-height:1.4}
+.day b{font-size:16px;font-weight:500}
+.day[aria-pressed=true]{background:var(--purple);border-color:var(--purple);color:#fff}
+.day.today:not([aria-pressed=true]){border-color:var(--purple)}
+.day i{font-style:normal;font-size:11px;opacity:.85}
+.hero{display:grid;grid-template-columns:1fr;gap:16px;align-items:center;justify-items:center;text-align:center}
+@media (min-width:720px){.hero{grid-template-columns:280px 1fr;justify-items:start;text-align:start}}
+.rings{width:100%;max-width:280px;height:auto}
+.quote{display:flex;flex-direction:column;gap:8px;max-width:46ch}
+.q{font-size:clamp(19px,4vw,28px);font-weight:600;color:var(--purple);line-height:1.35;text-wrap:balance}
+@media (min-width:420px){.q{white-space:nowrap}}
+.arealist{display:flex;flex-direction:column;gap:12px}
+.area{gap:0;padding:0}
+.area summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr) auto 20px;gap:12px;align-items:center;padding:16px 20px;min-height:72px}
+.area summary::-webkit-details-marker{display:none}
+.aname{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chev{width:9px;height:9px;border-inline-end:1.6px solid var(--purple);border-bottom:1.6px solid var(--purple);transform:rotate(45deg);margin-top:-4px;transition:transform .2s;justify-self:center}
+.area[open] .chev{transform:rotate(-135deg);margin-top:4px}
+.abody{display:flex;flex-direction:column;gap:16px;padding:0 20px 20px;border-top:0.5px solid var(--line);padding-top:16px}
+.steps-list{margin:8px 0 0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.steps-list b{font-weight:500;color:var(--deep)}
+.faq{display:flex;flex-direction:column}
+.faq details{border-top:0.5px solid var(--line);padding:4px 0}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:48px;font-weight:500;color:var(--deep)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:8px;height:8px;border-inline-end:1.6px solid var(--purple);border-bottom:1.6px solid var(--purple);transform:rotate(45deg);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(-135deg)}
+.faq p{padding-bottom:12px;color:var(--text)}
+.stages{border-top:0.5px solid var(--line);padding-top:12px}
+.stages summary{cursor:pointer;color:var(--purple);font-weight:500;list-style:none;display:flex;align-items:center;gap:8px;min-height:40px}
+.stages summary::-webkit-details-marker{display:none}
+.stages summary::after{content:"";width:8px;height:8px;border-inline-end:1.6px solid var(--purple);border-bottom:1.6px solid var(--purple);transform:rotate(45deg);margin-top:-4px;transition:transform .2s}
+.stages[open] summary::after{transform:rotate(-135deg);margin-top:4px}
+.stagelist{list-style:none;margin:8px 0 12px;padding:0;display:flex;flex-direction:column;gap:12px}
+.stagelist li{display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;align-items:start}
+.stagelist i{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:14px;color:var(--muted)}
+.stagelist li.past i{background:var(--lav);border-color:var(--lav);color:var(--deep)}
+.stagelist li.cur i{background:var(--purple);border-color:var(--purple);color:#fff}
+.stagelist b{font-weight:500;color:var(--deep)}
+.stagelist p{font-size:15px}
+.stats{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.stats strong{color:var(--text);font-weight:600}
+.badges{display:flex;flex-wrap:wrap;gap:12px}
+.seal{display:flex;flex-direction:column;align-items:center;gap:4px;width:72px;text-align:center;font-size:12px;line-height:1.3;color:var(--muted)}
+.seal i{width:40px;height:40px;border-radius:50%;border:1px dashed var(--mauve);display:flex;align-items:center;justify-content:center}
+.seal.on{color:var(--text)}
+.seal.on i{background:var(--gold);border:2px solid var(--surface);outline:1px solid var(--gold)}
+.seal svg{width:20px;height:20px;fill:none;stroke:var(--mauve);stroke-width:1.6}
+.seal.on svg{stroke:var(--text)}
+
+/* bottleneck */
+.focus{background:var(--lav);border:1.5px solid var(--purple)}
+.focus .ft,.focus .lever,.focus .miles label{background:var(--surface);border-color:var(--surface)}
+.focus .track{background:var(--surface)}
+.focus .tag{background:var(--surface)}
+.focus .muted,.focus .small.muted{color:var(--deep)}
+.fromto{display:grid;grid-template-columns:1fr;gap:8px;align-items:stretch}
+@media (min-width:640px){.fromto{grid-template-columns:1fr auto 1fr}}
+.ft{background:var(--inset);border-radius:12px;padding:12px 16px;min-width:0}
+.ft span{display:block;font-size:13px;color:var(--muted)}
+.ft p{font-weight:500;color:var(--deep)}
+.arrow{align-self:center;justify-self:center;color:var(--mauve)}
+.arrow svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.6}
+@media (max-width:639px){.arrow svg{transform:rotate(-90deg)}}
+.miles{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.miles label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;padding:8px 12px;border-radius:12px;border:0.5px solid var(--lav)}
+.miles input{width:20px;height:20px;accent-color:var(--purple);margin-top:4px;flex:none}
+.miles .done span{color:var(--muted);text-decoration:line-through}
+.levers{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:640px){.levers{grid-template-columns:1fr 1fr}}
+.lever{border:0.5px solid var(--lav);border-radius:12px;padding:12px 16px;min-width:0}
+.lever span{display:block;font-size:13px;color:var(--purple);font-weight:500}
+.lever p{overflow-wrap:anywhere}
+
+/* life map */
+.ahead{display:flex;gap:12px;align-items:center}
+.ico{width:48px;height:48px;border-radius:50%;background:var(--surface);border:1px solid var(--mauve);display:flex;align-items:center;justify-content:center;flex:none}
+.soft .ico,.ico.lav{background:var(--lav)}
+.ico svg{width:24px;height:24px;fill:none;stroke:var(--purple);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ascore{margin-inline-start:auto;text-align:end;font-size:13px;color:var(--muted);line-height:1.2}
+.ascore b{display:block;font-size:22px;color:var(--purple);font-weight:600}
+.subs{display:flex;flex-direction:column;gap:10px}
+.sub{display:grid;grid-template-columns:minmax(0,1fr) 88px 28px;gap:12px;align-items:center;font-size:15px}
+.sub .n{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.sub .v{text-align:end;font-variant-numeric:tabular-nums;color:var(--muted)}
+.sub.na{color:var(--muted)}
+.minline{border-top:0.5px solid var(--lav);padding-top:12px;display:flex;flex-direction:column;gap:4px}
+.minline span{font-size:13px;color:var(--muted)}
+
+/* forms */
+.field{display:flex;flex-direction:column;gap:6px}
+.field label,.qlabel{font-weight:500;color:var(--deep)}
+.hint{font-size:14px;color:var(--muted)}
+input[type=text],input[type=date],textarea{font-family:inherit;font-size:16px;color:var(--text);background:var(--surface);border:1px solid var(--lav);border-radius:12px;padding:10px 14px;width:100%}
+textarea{min-height:88px;resize:vertical}
+input[type=text]:focus,textarea:focus{outline:2px solid var(--purple);outline-offset:0;border-color:var(--purple)}
+input[type=range]{width:100%;accent-color:var(--purple)}
+.scale{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-family:inherit;font-size:15px;min-width:44px;min-height:40px;border-radius:999px;border:1px solid var(--lav);background:var(--surface);color:var(--deep);cursor:pointer;padding:0 14px}
+.pill[aria-pressed=true]{background:var(--purple);border-color:var(--purple);color:#fff}
+.check{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted);cursor:pointer}
+.check input{accent-color:var(--purple);width:18px;height:18px}
+.steps{display:flex;gap:6px}
+.steps i{flex:1;height:6px;border-radius:999px;background:var(--lav)}
+.steps i.on{background:var(--purple)}
+.rank{display:flex;flex-direction:column;gap:12px}
+.rk{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;border:0.5px solid var(--lav);border-radius:12px;padding:14px 16px;cursor:pointer}
+.rk input{accent-color:var(--purple);width:20px;height:20px;margin-top:4px}
+.rk.sel{border:1px solid var(--purple)}
+select{font-family:inherit;font-size:16px;border:1px solid var(--lav);border-radius:12px;padding:10px 14px;background:var(--surface);color:var(--text);width:100%}
+.done-card{background:var(--lav);border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.done-card p{color:var(--deep)}
+pre.out{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--bg);border-radius:12px;padding:12px 16px;max-height:200px;overflow:auto;font-family:inherit;font-size:13px;margin:0}
+
+footer{border-top:0.5px solid var(--lav);padding-top:16px;font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.toast{position:fixed;inset-inline:0;bottom:calc(24px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;pointer-events:none;z-index:5}
+.toast span{background:var(--gold);color:var(--text);font-weight:600;border-radius:999px;padding:10px 22px;transition:opacity .3s,transform .3s}
+.toast span.hide{opacity:0;transform:translateY(8px)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap" id="app" dir="rtl" lang="ar"></div>
+<div class="toast" aria-live="polite"><span id="toast" class="hide"></span></div>
+
+<script>
+(function(){
+document.documentElement.dir='rtl';document.documentElement.lang='ar';
+var KEY='lifePlanner.v1';
+var CORE=['self','rel','work','money','life'];
+var DEFAULT_AREAS=[
+ {id:'self',name:'أنا',icon:'self',subs:[['health','الصحة الجسدية'],['energy','الطاقة والصحة النفسية'],['learn','التعلم والتطور'],['spirit','الروحانية']]},
+ {id:'rel',name:'علاقاتي',icon:'rel',subs:[['partner','الشريك'],['kids','الأبناء'],['family','العائلة (الوالدان والإخوة)'],['friends','الأصدقاء'],['network','الزملاء والشبكة المهنية']]},
+ {id:'work',name:'عملي',icon:'work',subs:[['perf','الأداء والإنتاجية'],['growth','النمو والمسار المهني'],['meaning','المعنى والرضا'],['bounds','الحدود والتوازن']]},
+ {id:'money',name:'مالي',icon:'money',subs:[['income','الدخل'],['spend','المصاريف والميزانية'],['save','المدخرات وصندوق الطوارئ'],['invest','الاستثمار'],['debt','الديون']]},
+ {id:'life',name:'جودة الحياة',icon:'life',subs:[['things','المقتنيات'],['travel','السفر والتجارب'],['fun','الترفيه والهوايات']]}
+];
+var ICONS={
+ self:'<circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-3.6 3.8-5.5 7-5.5s5.8 1.9 7 5.5"/>',
+ rel:'<circle cx="9" cy="8.5" r="3"/><circle cx="16.5" cy="9.5" r="2.5"/><path d="M3.5 19c1-3 3-4.6 5.5-4.6S13.5 16 14.5 19"/><path d="M15 14.6c2.4-.3 4.3 1.1 5.2 3.9"/>',
+ work:'<rect x="3.5" y="7.5" width="17" height="11.5" rx="2"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5"/><path d="M3.5 12.5h17"/>',
+ money:'<ellipse cx="12" cy="7" rx="7" ry="2.8"/><path d="M5 7v5c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8V7"/><path d="M5 12v5c0 1.5 3.1 2.8 7 2.8s7-1.3 7-2.8v-5"/>',
+ life:'<circle cx="12" cy="12" r="3.8"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M5.6 18.4l1.6-1.6M16.8 7.2l1.6-1.6"/>',
+ custom:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/>',
+ arrow:'<path d="M19 12H5"/><path d="M10 7l-5 5 5 5"/>',
+ star:'<path d="M12 4l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 16.4 7.2 18.9l.9-5.4L4.2 9.7l5.4-.8z"/>'
+};
+var LEVELS=[[0,'البداية'],[100,'الوضوح'],[250,'الالتزام'],[450,'الزخم'],[700,'الثبات'],[1000,'التوازن'],[1400,'الإتقان']];
+var BADGES=[['assess','أول تقييم'],['plan','خطة واضحة'],['m1','أول محطة'],['s4','٤ أسابيع متتالية'],['goal','هدف محقق']];
+var XP={wgoal:15,task:5,assess:50,plan:30,mile:100,review:20,step:30,stepHalf:15,min:10,goal:150};
+
+function svg(n){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+ICONS[n]+'</svg>'}
+function ar(n){return String(n).replace(/\d/g,function(d){return '٠١٢٣٤٥٦٧٨٩'[d]})}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function weekIdx(d){d=d||new Date();var m=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));m.setUTCDate(m.getUTCDate()-m.getUTCDay());return Math.round(m.getTime()/604800000)}
+function subName(id){for(var a of S.areas)for(var s of a.subs)if(s[0]===id)return s[1];return ''}
+function areaOf(id){for(var a of S.areas)for(var s of a.subs)if(s[0]===id)return a;return null}
+
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function pad(n){return (n<10?'0':'')+n}
+function isoD(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function addYears(n){var d=new Date();d.setFullYear(d.getFullYear()+n);return isoD(d)}
+function qEnd(){var d=new Date(),q=Math.floor(d.getMonth()/3);return isoD(new Date(d.getFullYear(),q*3+3,0))}
+function mEnd(){var d=new Date();return isoD(new Date(d.getFullYear(),d.getMonth()+1,0))}
+function fdate(iso){if(!iso)return '';var d=new Date(iso+'T00:00:00');if(isNaN(d))return '';var m=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];return ar(d.getDate())+' '+m[d.getMonth()]+' '+ar(d.getFullYear())}
+function num(v){if(v==null)return null;v=String(v).replace(/[٠-٩]/g,function(c){return '٠١٢٣٤٥٦٧٨٩'.indexOf(c)}).replace(/[,٬\s]/g,'');if(v==='')return null;var n=parseFloat(v);return isNaN(n)?null:n}
+function fnum(n){return ar(Number(n).toLocaleString('en-US')).replace(/,/g,'٬')}
+function blank(){return {v:2,demo:false,goals:{},areas:clone(DEFAULT_AREAS),scores:{},bottleneck:null,plan:null,minimums:{},xp:0,reviews:[],badges:[],history:[],lastAssess:null}}
+function demo(){
+  var w=weekIdx(),sc={};
+  var vals={health:6,energy:3,learn:7,spirit:6,fun:4,partner:7,kids:8,family:6,friends:5,network:6,perf:6,growth:5,meaning:7,bounds:3,income:6,spend:5,save:4,invest:3,debt:8,things:5,travel:4};
+  var imp={energy:5,bounds:4,save:3,invest:2,fun:3,travel:3};
+  for(var k in vals)sc[k]={s:vals[k],i:imp[k]||2,na:false};
+  return {v:1,demo:true,areas:clone(DEFAULT_AREAS),
+   goals:{purpose:{t:'أن أعيش حياة هادئة ومتوازنة، أبني فيها أثرًا حقيقيًا وأستمتع بها مع من أحب'},y3:{t:'عمل مستقر يعطيني دخلًا ثابتًا وحرية في وقتي',m:'الدخل الشهري بالريال',cur:18000,target:40000,due:addYears(3)},y1:{t:'دخل شهري ثابت مع ٤ أيام عمل فقط في الأسبوع',m:'الدخل الشهري بالريال',cur:18000,target:25000,due:addYears(1)}},scores:sc,bottleneck:'energy',
+   plan:{from:'أنام ٥ ساعات وأستيقظ متعبًا',to:'أنام ٧ ساعات في ٥ ليالٍ كل أسبوع',why:'لأن طاقتي هي ما يحرّك عملي وعلاقاتي',identity:'أنا شخص يحمي طاقته قبل أي شيء آخر',env:'شاحن الجوال خارج غرفة النوم',step:'إطفاء الشاشات الساعة ١٠:٣٠ مساءً',ifthen:'إذا تأخرت في العمل، فسأؤجل المهام غير العاجلة للغد',due:qEnd(),
+    miles:[{t:'تحديد موعد ثابت للنوم',d:true},{t:'إبعاد الجوال عن غرفة النوم',d:true},{t:'٣ ليالٍ بسبع ساعات لمدة أسبوعين',d:false},{t:'٥ ليالٍ بسبع ساعات لمدة أسبوعين',d:false}]},
+   minimums:{self:'مشي ٢٠ دقيقة مرتين في الأسبوع',rel:'مكالمة للوالدين كل أسبوع',work:'لا اجتماعات بعد ٦ مساءً',money:'مراجعة المصاريف كل جمعة',life:'نزهة واحدة في الأسبوع'},
+   xp:340,reviews:[{w:w-3,step:'yes',kept:['self','rel']},{w:w-2,step:'half',kept:['self','rel','work']},{w:w-1,step:'yes',kept:['rel','money']}],
+   badges:['assess','plan','m1'],history:[],lastAssess:null,
+   week:(function(){var t=isoD(new Date()),y=new Date();y.setDate(y.getDate()-1);var d={};d[t]=[{t:'إطفاء الشاشات ١٠:٣٠ مساءً',d:true},{t:'مشي ٢٠ دقيقة',d:false},{t:'تحضير عرض العميل',d:false}];if(y.getDay()!==6)d[isoD(y)]=[{t:'مكالمة للوالدين',d:true},{t:'مراجعة المصاريف',d:true}];return {w:w,goals:[{t:'إطفاء الشاشات الساعة ١٠:٣٠ مساءً',d:false},{t:'المشي ٣ مرات هذا الأسبوع',d:false},{t:'إنهاء عرض العميل الجديد',d:true}],days:d}})()};
+}
+
+var store=null,storageOk=true;
+try{var raw=localStorage.getItem(KEY);if(raw)store=JSON.parse(raw)}catch(e){storageOk=false}
+/* Data version. When the tool changes, raise DATA_V and add a step in migrate()
+   so saved data from older versions is upgraded, never lost. */
+var DATA_V=2;
+function migrate(o){
+  if(!o||typeof o!=='object')return null;
+  o.areas=Array.isArray(o.areas)?o.areas:clone(DEFAULT_AREAS);
+  DEFAULT_AREAS.forEach(function(d){if(!o.areas.some(function(a){return a.id===d.id}))o.areas.push(clone(d))});
+  o.scores=o.scores||{};o.goals=o.goals||{};o.minimums=o.minimums||{};
+  o.reviews=Array.isArray(o.reviews)?o.reviews:[];o.badges=Array.isArray(o.badges)?o.badges:[];o.history=Array.isArray(o.history)?o.history:[];
+  o.cycle=o.cycle||1;
+  if(o.week){o.week.kept=o.week.kept||{};o.week.days=o.week.days||{};o.week.goals=Array.isArray(o.week.goals)?o.week.goals:[]}
+  o.v=DATA_V;
+  return o;
+}
+var S=migrate(store)||demo();
+if(store&&!S.demo)save();
+var V={open:{},tab:'life',view:'dash',step:0,pick:null,copied:false,backupOpen:false,restoreErr:'',confirmReset:false};
+function save(){if(S.demo)return;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){storageOk=false}}
+
+var STAGES=[
+ ['الوعي','ترى حياتك كاملة: تقيّم رضاك عن كل مجال وأثره على بقية حياتك.','أكمل تقييم مجالات حياتك'],
+ ['التركيز','تكتشف عنق الزجاجة: المجال الذي لو تحسّن سهّل كل شيء آخر.','اختر مجال تركيزك'],
+ ['التصميم','تحدد من أين تبدأ وإلى أين تريد أن تصل، ولماذا، والمحطات في الطريق.','احفظ خطتك مع محطة واحدة على الأقل'],
+ ['الهوية والبيئة','تحدد من الشخص الذي ستصبحه، وتجهّز محيطك، وتستعد للعوائق.','املأ الهوية والبيئة وخطة «إذا... فـ»'],
+ ['الفعل','تبدأ التنفيذ وترى أول نتيجة حقيقية.','أنجز أول محطة'],
+ ['الاستمرار','تحافظ على الإيقاع حتى عندما يقل الحماس.','سجّل ٤ مراجعات أسبوعية متتالية'],
+ ['الإنجاز','تصل إلى هدفك وتكسر عنق الزجاجة.','أكمل كل المحطات']
+];
+function cyc(){return S.cycle||1}
+function streak(only){var set={};S.reviews.forEach(function(r){if(!only||(r.c||1)===cyc())set[r.w]=1});var c=weekIdx();if(!set[c])c--;var n=0;while(set[c]){n++;c--}return n}
+function level(){
+  var p=S.plan||{},m=p.miles||[],goal=m.length>0&&m.every(function(x){return x.d});
+  var d=[!!(S.assessed||S.bottleneck),!!S.bottleneck,!!(p.from&&p.to&&m.length),!!(p.identity&&p.env&&p.ifthen),m.some(function(x){return x.d}),streak(true)>=4,goal];
+  if(goal)d=d.map(function(){return true});
+  var cur=d.indexOf(false);var complete=cur<0;
+  return {done:d,n:complete?STAGES.length:cur+1,complete:complete,name:complete?'أكملت الدورة':STAGES[cur][0],count:d.filter(Boolean).length};
+}
+function reviewedThisWeek(){var w=weekIdx();return S.reviews.some(function(r){return r.w===w})}
+function giveBadge(id){if(S.badges.indexOf(id)<0)S.badges.push(id)}
+var tt;function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.remove('hide');clearTimeout(tt);tt=setTimeout(function(){t.classList.add('hide')},2200)}
+function award(n,msg){if(n>0&&msg)toast(msg)}
+function areaAvg(a){var t=0,c=0;a.subs.forEach(function(s){var v=S.scores[s[0]];if(v&&!v.na){t+=v.s;c++}});return c?Math.round(t/c*10)/10:null}
+function leverage(id){var v=S.scores[id];if(!v||v.na)return -1;return (10-v.s)*v.i}
+
+/* ---------- views ---------- */
+function headerHTML(){return '<header><h1>مخطط الحياة</h1><p class="muted">هدف واحد يحرّك كل شيء</p></header>'}
+
+function dashHTML(){
+  var h='';
+  h+=installBanner();
+  if(S.demo)h+='<div class="demo"><p>هذه بيانات مثال لتعرف كيف تعمل الصفحة.</p><button class="btn btn-purple" data-a="start">ابدأ تقييمي</button></div>';
+  else if(!S.bottleneck)h+='<div class="card soft"><h3>لم تكمل تقييمك بعد</h3><p>قيّم مجالات حياتك لنكتشف أين تركّز الآن.</p><button class="btn btn-purple" data-a="assess" style="width:fit-content">ابدأ التقييم</button></div>';
+  h+='<div class="tabs" role="tablist"><button role="tab" data-a="tab" data-v="life" aria-selected="'+(V.tab==='life')+'">مجالات حياتي</button><button role="tab" data-a="tab" data-v="exec" aria-selected="'+(V.tab==='exec')+'">خريطة التنفيذ</button><button role="tab" data-a="tab" data-v="week" aria-selected="'+(V.tab==='week')+'">المراجعة الأسبوعية</button></div>';
+  if(V.tab==='exec')return h+execHTML();
+  if(V.tab==='week')return h+weekHTML();
+  h+=circlesHTML();
+  h+=levelHTML();
+  if(S.bottleneck&&S.plan)h+=focusHTML();
+  else if(S.bottleneck)h+='<div class="card focus"><div class="row"><span class="badge">عنق الزجاجة</span><span class="tag">تركيزك الآن</span></div><h2>'+esc(subName(S.bottleneck))+'</h2><p>اخترت عنق الزجاجة. الخطوة التالية أن تكتب خطتك.</p><button class="btn btn-purple" data-a="plan" style="width:fit-content">اكتب خطتك</button></div>';
+  h+='<section style="display:flex;flex-direction:column;gap:16px"><div class="row between"><h2>مجالات حياتك</h2><span class="small muted">اضغط على المجال لتفتحه</span></div><div class="arealist">'+S.areas.map(areaHTML).join('')+'</div><div><button class="btn btn-ghost" data-a="addarea">أضف مجالًا جديدًا</button></div></section>';
+  h+=toolsHTML();
+  return h;
+}
+var GLEVELS=[
+ ['purpose','الغاية','لماذا تفعل كل هذا؟ جملة واحدة تصف الحياة التي تريدها.'],
+ ['y3','هدف ٣ سنوات','أين تريد أن تكون بعد ثلاث سنوات حتى تقترب من غايتك؟'],
+ ['y1','هدف السنة','ما الذي يجب أن يتحقق هذه السنة لتقترب من هدف الثلاث سنوات؟']
+];
+function goalCard(k,label,hint,timeTag){
+  var g=S.goals[k]||{},h='<div class="card"><div class="row between"><span class="gk">'+label+'</span>'+(timeTag?'<span class="tag">'+timeTag+'</span>':'')+'</div>';
+  if(!g.t)return h+'<p class="gempty">'+hint+'</p><div><button class="btn btn-ghost" data-a="goal" data-k="'+k+'">اكتب '+label+'</button></div></div>';
+  h+='<p class="gt">'+esc(g.t)+'</p>';
+  if(g.m)h+='<p class="small muted">المقياس: '+esc(g.m)+'</p>';
+  if(g.target!=null&&g.cur!=null&&g.target>0){var pc=Math.max(0,Math.min(100,Math.round(g.cur/g.target*100)));h+='<div style="display:flex;flex-direction:column;gap:6px"><div class="track" role="progressbar" aria-valuenow="'+pc+'" aria-valuemin="0" aria-valuemax="100"><span style="width:'+pc+'%"></span></div><span class="small muted">'+fnum(g.cur)+' من '+fnum(g.target)+'</span></div>'}
+  return h+'<div><button class="btn-text" data-a="goal" data-k="'+k+'">تعديل</button></div></div>';
+}
+function execHTML(){
+  var h='<div><h2>خريطة التنفيذ</h2><p class="muted">من الغاية الكبيرة إلى خطوة هذا الأسبوع. كل هدف يخدم الهدف الذي فوقه.</p></div><ol class="cascade">';
+  GLEVELS.forEach(function(l){var g=S.goals[l[0]]||{};h+='<li>'+goalCard(l[0],l[1],l[2],g.due?'حتى '+fdate(g.due):'')+'</li>'});
+  var p=S.plan;
+  if(!S.bottleneck||!p){
+    h+='<li class="now"><div class="card soft"><span class="gk">هدف الربع: عنق الزجاجة</span><p>هدف الربع هو عنق الزجاجة. اكتشفه من التقييم ثم اكتب خطتك، وبعدها يظهر هنا هدف الشهر وهدف الأسبوع.</p><div><button class="btn btn-purple" data-a="'+(S.bottleneck?'plan':'assess')+'">'+(S.bottleneck?'اكتب خطتك':'ابدأ التقييم')+'</button></div></div></li></ol>';
+    return h;
+  }
+  var m=p.miles||[],done=m.filter(function(x){return x.d}).length,pc=m.length?Math.round(done/m.length*100):0,ci=m.findIndex(function(x){return !x.d});
+  h+='<li><div class="card focus"><div class="row between"><span class="gk">هدف الربع</span><span class="tag">حتى '+fdate(p.due||qEnd())+'</span></div><div class="row"><span class="badge">عنق الزجاجة</span><span class="small" style="color:var(--deep)">'+esc(subName(S.bottleneck))+'</span></div><p class="gt">'+esc(p.to||'—')+'</p><div style="display:flex;flex-direction:column;gap:6px"><div class="track thick" role="progressbar" aria-valuenow="'+pc+'" aria-valuemin="0" aria-valuemax="100"><span style="width:'+pc+'%"></span></div><span class="small">'+ar(done)+' من '+ar(m.length)+' محطات</span></div><div><button class="btn-text" data-a="plan">تعديل الخطة</button></div></div></li>';
+  h+='<li><div class="card"><div class="row between"><span class="gk">هدف الشهر</span><span class="tag">حتى '+fdate(mEnd())+'</span></div>'+(ci<0?'<p class="gt">أنجزت كل المحطات</p>':'<p class="gt">'+esc(m[ci].t)+'</p><p class="small muted">المحطة '+ar(ci+1)+' من '+ar(m.length)+'. أنجزها هذا الشهر.</p><label class="check" style="color:var(--text)"><input type="checkbox" data-a="mile" data-i="'+ci+'">أنجزت هذه المحطة</label>')+'</div></li>';
+  var W=wk(),wd=W.goals.filter(function(x){return x.t&&x.d}).length,wn=W.goals.filter(function(x){return x.t}).length;
+  h+='<li class="now"><div class="card soft"><div class="row between"><span class="gk">أهداف الأسبوع</span><span class="tag" style="background:var(--surface)">'+ar(wd)+' من '+ar(wn)+'</span></div><p class="gt">'+esc(p.step||'—')+'</p><p class="small">خطوة عنق الزجاجة هي أول أهداف أسبوعك. خطط بقية الأسبوع ومهام كل يوم في المراجعة الأسبوعية.</p><button class="btn btn-purple" data-a="tab" data-v="week" style="width:fit-content">افتح المراجعة الأسبوعية</button></div></li></ol>';
+  return h;
+}
+var DAYN=['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+function weekDays(){var d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-d.getDay());var a=[];for(var i=0;i<7;i++){var x=new Date(d);x.setDate(d.getDate()+i);a.push(x)}return a}
+function wgText(W,i){return i===0?((S.plan&&S.plan.step)||''):W.goals[i].t}
+function wk(){var w=weekIdx();if(!S.week||S.week.w!==w){S.week={w:w,goals:[{t:(S.plan&&S.plan.step)||'',d:false},{t:'',d:false},{t:'',d:false}],days:{}}}return S.week}
+function weekHTML(){
+  var W=wk(),days=weekDays(),today=isoD(new Date());if(!V.day)V.day=today;
+  var m=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  var range=ar(days[0].getDate())+' '+m[days[0].getMonth()]+' – '+ar(days[6].getDate())+' '+m[days[6].getMonth()];
+  var gd=W.goals.filter(function(x,i){return wgText(W,i)&&x.d}).length,gn=W.goals.filter(function(x,i){return wgText(W,i)}).length,gp=gn?Math.round(gd/gn*100):0;W.kept=W.kept||{};
+  var h='<div><h2>المراجعة الأسبوعية</h2><p class="muted">خطّط أسبوعك في ثلاثة أهداف، واختر أهم مهام كل يوم، وفي نهاية الأسبوع راجع ما حدث.</p></div>';
+  h+='<div class="card"><div class="row between"><h3>أهداف هذا الأسبوع</h3><span class="tag">'+range+'</span></div><div class="track" role="progressbar" aria-valuenow="'+gp+'" aria-valuemin="0" aria-valuemax="100"><span style="width:'+gp+'%"></span></div><span class="small muted">'+ar(gd)+' من '+ar(gn)+' أهداف</span>';
+  h+=W.goals.map(function(g,i){var tx=wgText(W,i);
+    if(i===0)return '<div class="todo'+(g.d?' done':'')+'"><input type="checkbox" data-a="wg-check" data-i="0"'+(g.d?' checked':'')+(tx?'':' disabled')+' aria-label="أنجزت خطوة عنق الزجاجة"><div style="min-width:0"><span class="small" style="color:var(--purple);font-weight:500">خطوة عنق الزجاجة</span><p'+(g.d?' style="color:var(--muted);text-decoration:line-through"':'')+'>'+(tx?esc(tx):'<span class="muted">اكتبها في خطتك</span>')+'</p></div><button class="btn-text" data-a="plan" style="font-size:13px">تعديل</button></div>';
+    return '<div class="todo'+(g.d?' done':'')+'"><input type="checkbox" data-a="wg-check" data-i="'+i+'"'+(g.d?' checked':'')+(g.t?'':' disabled')+' aria-label="أنجزت الهدف '+ar(i+1)+'"><input type="text" id="wg-'+i+'" data-a="wg-text" data-i="'+i+'" value="'+esc(g.t)+'" placeholder="الهدف '+ar(i+1)+'"><span></span></div>'}).join('');
+  h+='</div>';
+  var mins=S.areas.filter(function(a){return S.minimums[a.id]});
+  h+='<div class="card"><div class="row between"><h3>حافظ على مجالاتك</h3><span class="small muted">'+ar(mins.filter(function(a){return W.kept[a.id]}).length)+' من '+ar(mins.length)+'</span></div><p class="hint">الحد الأدنى الذي تلتزم به في كل مجال، حتى لا يتراجع وأنت تركّز على عنق الزجاجة.</p>';
+  h+=mins.length?mins.map(function(a){var k=!!W.kept[a.id];return '<label class="todo'+(k?' done':'')+'" style="cursor:pointer"><input type="checkbox" data-a="wk-kept" data-id="'+a.id+'"'+(k?' checked':'')+'><span style="min-width:0'+(k?';color:var(--muted);text-decoration:line-through':'')+'"><b style="font-weight:500">'+esc(a.name)+':</b> '+esc(S.minimums[a.id])+'</span><span></span></label>'}).join(''):'<p class="small muted">لم تحدد الحد الأدنى لأي مجال بعد. حدّده من صفحة مجالات حياتي.</p>';
+  h+='</div>';
+  var list=W.days[V.day]||[];
+  h+='<div class="card"><div class="row between"><h3>مهام اليوم</h3><span class="small muted">'+ar(list.filter(function(x){return x.d}).length)+' من '+ar(list.length)+'</span></div><div class="days" role="group" aria-label="أيام الأسبوع">'+days.map(function(d,i){var k=isoD(d),c=(W.days[k]||[]).length;return '<button class="day'+(k===today?' today':'')+'" data-a="day" data-v="'+k+'" aria-pressed="'+(V.day===k)+'">'+DAYN[i]+'<b>'+ar(d.getDate())+'</b><i>'+(c?ar((W.days[k]||[]).filter(function(x){return x.d}).length)+'/'+ar(c):'—')+'</i></button>'}).join('')+'</div>';
+  h+=list.map(function(t,i){return '<div class="todo'+(t.d?' done':'')+'"><input type="checkbox" data-a="dt-check" data-i="'+i+'"'+(t.d?' checked':'')+' aria-label="أنجزت المهمة"><input type="text" id="dt-'+V.day+'-'+i+'" data-a="dt-text" data-i="'+i+'" value="'+esc(t.t)+'"><button class="x" data-a="dt-del" data-i="'+i+'" aria-label="احذف المهمة">×</button></div>'}).join('');
+  if(list.length<3)h+='<div class="row" style="flex-wrap:nowrap"><input type="text" id="dt-new" placeholder="أضف مهمة لهذا اليوم"><button class="btn btn-ghost" data-a="dt-add">أضف</button></div>';
+  h+='<p class="hint">اختر ٣ مهام فقط لكل يوم. القليل المنجز أفضل من الكثير المؤجل.</p></div>';
+  var rv=reviewedThisWeek();
+  h+='<div class="card soft"><h3>مراجعة نهاية الأسبوع</h3><p class="small">'+(rv?'سجّلت مراجعة هذا الأسبوع. نلتقي الأسبوع القادم.':'خمس دقائق تراجع فيها خطوتك والحد الأدنى لكل مجال.')+'</p><button class="btn btn-gold" data-a="review" style="width:fit-content"'+(rv?' disabled':'')+'>ابدأ المراجعة</button></div>';
+  return h;
+}
+function goalHTML(){
+  var k=V.gk,l=GLEVELS.filter(function(x){return x[0]===k})[0],g=S.goals[k]||{};
+  var h='<h2>'+l[1]+'</h2><p class="muted">'+l[2]+'</p><div class="card"><div class="field"><label for="g-t">'+l[1]+'</label><textarea id="g-t">'+esc(g.t||'')+'</textarea></div>';
+  if(k!=='purpose'){
+    h+='<div class="field"><label for="g-m">كيف ستعرف أنك وصلت؟</label><span class="hint">المقياس الذي ستتابعه، مثل: الدخل الشهري، الوزن، عدد الأيام.</span><input type="text" id="g-m" value="'+esc(g.m||'')+'"></div>';
+    h+='<div class="grid2"><div class="field"><label for="g-cur">الرقم الحالي</label><input type="text" inputmode="decimal" id="g-cur" value="'+(g.cur!=null?g.cur:'')+'"></div><div class="field"><label for="g-target">الرقم المستهدف</label><input type="text" inputmode="decimal" id="g-target" value="'+(g.target!=null?g.target:'')+'"></div></div>';
+    h+='<div class="field"><label for="g-due">الموعد</label><input type="date" id="g-due" value="'+(g.due||addYears(k==='y3'?3:1))+'"></div>';
+  }
+  h+='</div><div class="row between"><button class="btn-text" data-a="cancel">إلغاء</button><button class="btn btn-gold" data-a="gsave">احفظ</button></div>';
+  return h;
+}
+function circlesHTML(){
+  var rings=[[150,'جودة الحياة','var(--inset)'],[114,'عملي ومالي','#EFE6F5'],[78,'علاقاتي','var(--lav)']];
+  var g=rings.map(function(r){return '<circle cx="160" cy="160" r="'+r[0]+'" style="fill:'+r[2]+';stroke:var(--mauve)" stroke-width="1"/>'}).join('');
+  g+=rings.map(function(r){return '<text x="160" y="'+(160-r[0]+24)+'" text-anchor="middle" style="fill:var(--deep);font-size:14px;font-weight:500;font-family:var(--font)">'+r[1]+'</text>'}).join('');
+  g+='<circle cx="160" cy="160" r="40" style="fill:var(--purple)"/><text x="160" y="167" text-anchor="middle" style="fill:#fff;font-size:20px;font-weight:600;font-family:var(--font)">أنا</text>';
+  return '<div class="card hero"><svg class="rings" viewBox="0 0 320 320" role="img" aria-label="دوائر الحياة: أنا في المركز، ثم علاقاتي، ثم عملي ومالي، ثم جودة الحياة">'+g+'</svg><div class="quote"><p class="q">اعتنِ بالمركز، تتّسع كل الدوائر.</p><p class="small muted">أنت مركز حياتك. حين تهتم بنفسك، تملك الطاقة لتعتني بعلاقاتك وعملك ومالك وجودة حياتك.</p></div></div>';
+}
+function levelHTML(){
+  var L=level(),st=streak(),pct=Math.round(L.count/STAGES.length*100);
+  var b=BADGES.map(function(x){var on=S.badges.indexOf(x[0])>=0;return '<div class="seal'+(on?' on':'')+'"><i>'+svg('star')+'</i><span>'+x[1]+'</span></div>'}).join('');
+  var cur=L.complete?null:STAGES[L.n-1];
+  var list='<ol class="stagelist">'+STAGES.map(function(s,i){var st2=L.done[i]?'past':(!L.complete&&i===L.n-1)?'cur':'';return '<li class="'+st2+'"><i>'+(L.done[i]?'✓':ar(i+1))+'</i><div><b>'+s[0]+(st2==='cur'?' <span class="tag">أنت هنا</span>':'')+'</b><p>'+s[1]+'</p><p class="small muted">تنتقل منه عندما: '+s[2]+'.</p></div></li>'}).join('')+'</ol><p class="small" style="color:var(--deep)">بعد مستوى الإنجاز تبدأ دورة جديدة: تعيد التقييم، وتكتشف عنق الزجاجة التالي، وتمر بالمستويات السبعة من جديد.</p>';
+  return '<div class="card"><div class="level"><div class="disc" aria-label="المستوى '+ar(L.n)+'"><small>المستوى</small><b>'+ar(L.n)+'</b></div><div style="display:flex;flex-direction:column;gap:8px;min-width:0"><div class="row between"><h3>مستواك في لعبة الحياة</h3><span class="tag">الدورة '+ar(cyc())+'</span></div><p><b style="font-weight:500;color:var(--purple)">'+(L.complete?'أكملت الدورة '+ar(cyc())+'. أنت جاهز لعنق الزجاجة التالي.':'المستوى '+ar(L.n)+' من '+ar(STAGES.length)+': '+cur[0])+'</b></p>'+(cur?'<p class="small muted">الخطوة التالية: '+cur[2]+'.</p>':'')+'<div class="track gold" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><span style="width:'+pct+'%"></span></div><div class="stats"><span>المراجعات المتتالية: <strong>'+ar(st)+'</strong> '+(st===1?'أسبوع':'أسابيع')+'</span></div></div></div><details class="stages"><summary>ما معنى المستويات؟</summary>'+list+'</details><div style="display:flex;flex-direction:column;gap:12px;border-top:0.5px solid var(--line);padding-top:16px"><div class="row between"><h3>الإنجازات التي حققتها</h3><span class="small muted">'+ar(S.badges.length)+' من '+ar(BADGES.length)+'</span></div><div class="badges">'+b+'</div></div></div>';
+}
+function focusHTML(){
+  var p=S.plan,a=areaOf(S.bottleneck),m=p.miles||[],done=m.filter(function(x){return x.d}).length,pct=m.length?Math.round(done/m.length*100):0;
+  var h='<div class="card focus"><div class="row"><span class="badge">عنق الزجاجة</span><span class="tag">تركيزك الآن</span></div>';
+  h+='<div class="row between"><h2>'+esc(subName(S.bottleneck))+'</h2><span class="tag">'+esc(a.name)+'</span></div>';
+  if(p.why)h+='<p class="muted">'+esc(p.why)+'</p>';
+  h+='<div class="fromto"><div class="ft"><span>من</span><p>'+esc(p.from||'—')+'</p></div><div class="arrow">'+svg('arrow')+'</div><div class="ft"><span>إلى</span><p>'+esc(p.to||'—')+'</p></div></div>';
+  h+='<div style="display:flex;flex-direction:column;gap:8px"><div class="row between"><h3>تقدّمك</h3><span class="small muted">'+ar(done)+' من '+ar(m.length)+' محطات</span></div><div class="track thick" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><span style="width:'+pct+'%"></span></div></div>';
+  if(m.length&&done===m.length){
+    h+='<div class="done-card"><h3>وصلت. حققت هدفك في '+esc(subName(S.bottleneck))+'.</h3><p>هذا وقت مناسب لإعادة التقييم واكتشاف تركيزك التالي.</p><button class="btn btn-purple" data-a="next" style="width:fit-content">اختر تركيزك التالي</button></div>';
+  }
+  h+='<ul class="miles">'+m.map(function(x,i){return '<li><label class="'+(x.d?'done':'')+'"><input type="checkbox" data-a="mile" data-i="'+i+'"'+(x.d?' checked':'')+'><span>'+esc(x.t)+'</span></label></li>'}).join('')+'</ul>';
+  h+='<div class="levers">'+[['الهوية',p.identity],['البيئة',p.env],['خطوة هذا الأسبوع',p.step],['إذا... فـ',p.ifthen]].map(function(l){return '<div class="lever"><span>'+l[0]+'</span><p>'+esc(l[1]||'—')+'</p></div>'}).join('')+'</div>';
+  h+='<div><button class="btn btn-ghost" data-a="plan">تعديل الخطة</button></div></div>';
+  return h;
+}
+function areaHTML(a){
+  var avg=areaAvg(a);
+  var subs=a.subs.map(function(s){var v=S.scores[s[0]],isB=S.bottleneck===s[0];
+    if(!v)return '<div class="sub na"><div class="n">'+s[1]+'</div><div class="track"><span style="width:0"></span></div><div class="v">—</div></div>';
+    if(v.na)return '<div class="sub na"><div class="n">'+s[1]+'</div><div class="small">لا ينطبق</div><div class="v"></div></div>';
+    return '<div class="sub"><div class="n">'+s[1]+(isB?'<span class="badge" style="font-size:12px;padding:0 10px">عنق الزجاجة</span>':'')+'</div><div class="track" aria-hidden="true"><span style="width:'+(v.s*10)+'%"></span></div><div class="v">'+ar(v.s)+'</div></div>'}).join('');
+  var mn=S.minimums[a.id];
+  var hasB=a.subs.some(function(x){return x[0]===S.bottleneck});
+  return '<details class="card area" data-id="'+a.id+'"'+(V.open[a.id]?' open':'')+'><summary><div class="ico">'+svg(a.icon)+'</div><div class="aname"><h3>'+esc(a.name)+'</h3>'+(hasB?'<span class="badge" style="font-size:12px;padding:0 10px">فيه عنق الزجاجة</span>':'')+'</div><div class="ascore"><b>'+(avg==null?'—':ar(avg))+'</b>من ١٠</div><span class="chev" aria-hidden="true"></span></summary><div class="abody"><div class="subs">'+subs+'</div><div class="minline"><span>الحد الأدنى للحفاظ</span>'+(mn?'<p>'+esc(mn)+'</p>':'<p class="muted small">لم يحدد بعد</p>')+'<button class="btn-text" data-a="min" data-id="'+a.id+'" style="width:fit-content">'+(mn?'تعديل الحد الأدنى':'حدّد الحد الأدنى')+'</button></div><button class="btn btn-ghost" data-a="edit" data-id="'+a.id+'" style="width:fit-content">'+(CORE.indexOf(a.id)>=0?'تعديل الأقسام':'تعديل المجال وأقسامه')+'</button></div></details>';
+}
+function reviewCTA(){
+  var done=reviewedThisWeek();
+  return '<div class="card soft"><div class="ahead"><div class="ico">'+svg('star')+'</div><div><h3>المراجعة الأسبوعية</h3><p class="small">'+(done?'سجّلت مراجعة هذا الأسبوع. نلتقي الأسبوع القادم.':'خمس دقائق تراجع فيها خطوتك والحد الأدنى لكل مجال.')+'</p></div></div><button class="btn btn-gold" data-a="review" style="width:fit-content"'+(done||!S.plan?' disabled':'')+'>ابدأ المراجعة</button></div>';
+}
+function toolsHTML(){
+  var h='<div class="card"><h3>حلّل تقدّمك مع الذكاء الاصطناعي</h3><p class="small muted">ننسخ لك ملخصًا جاهزًا بتقييمك وخطتك. الصقه في Claude أو ChatGPT ليقترح عليك الخطوات القادمة.</p><div><button class="btn btn-purple" data-a="copy">'+(V.copied?'تم النسخ':'انسخ الملخص')+'</button></div>';
+  if(V.copyFail)h+='<p class="small muted">لم يسمح المتصفح بالنسخ التلقائي. حدّد النص وانسخه:</p><pre class="out" id="sumout">'+esc(summary())+'</pre>';
+  h+='</div>';
+  h+='<div class="card"><h3>النسخة الاحتياطية</h3><p class="small muted">بياناتك محفوظة على هذا المتصفح فقط. احفظ نسخة لتنقلها إلى جهاز آخر أو تسترجعها لاحقًا.</p><div class="row"><button class="btn btn-ghost" data-a="bcopy">انسخ رمز النسخة</button><button class="btn-text" data-a="bopen">استرجاع نسخة</button></div>';
+  if(V.backupOpen)h+='<div class="field"><label for="restore">ألصق رمز النسخة هنا</label><textarea id="restore"></textarea>'+(V.restoreErr?'<p class="small" style="color:var(--deep)">'+V.restoreErr+'</p>':'')+'<div><button class="btn btn-purple" data-a="restore">استرجع</button></div></div>';
+  if(V.bcode)h+='<pre class="out">'+esc(V.bcode)+'</pre>';
+  h+='</div>';
+  if(!S.demo)h+='<div class="row">'+(V.confirmReset?'<span class="small">سيُحذف كل شيء من هذا الجهاز.</span><button class="btn-text" data-a="resetyes">نعم، احذف</button><button class="btn-text" data-a="resetno">إلغاء</button>':'<button class="btn-text" data-a="assess">إعادة التقييم</button><button class="btn-text" data-a="reset">حذف بياناتي</button>')+'</div>';
+  return h;
+}
+
+function assessHTML(){
+  var a=S.areas[V.step];
+  var h='<div class="steps">'+S.areas.map(function(_,i){return '<i class="'+(i<=V.step?'on':'')+'"></i>'}).join('')+'</div>';
+  h+='<div class="ahead"><div class="ico">'+svg(a.icon)+'</div><div><p class="small muted">المجال '+ar(V.step+1)+' من '+ar(S.areas.length)+'</p><h2>'+a.name+'</h2></div></div>';
+  h+='<p class="muted">لكل مجال فرعي سؤالان: ما مدى رضاك الآن؟ ولو تحسّن، كم سيسهّل بقية حياتك؟</p>';
+  h+=a.subs.map(function(s){var v=S.scores[s[0]]||(S.scores[s[0]]={s:5,i:3,na:false});
+    return '<div class="card"><div class="row between"><h3>'+s[1]+'</h3><label class="check"><input type="checkbox" data-a="na" data-id="'+s[0]+'"'+(v.na?' checked':'')+'>لا ينطبق علي</label></div>'+
+    (v.na?'':'<div class="field"><div class="row between"><span class="qlabel">رضاك الآن</span><b id="sv-'+s[0]+'" style="color:var(--purple)">'+ar(v.s)+'</b></div><input type="range" min="0" max="10" step="1" value="'+v.s+'" id="r-'+s[0]+'" data-a="s" data-id="'+s[0]+'" aria-label="رضاك عن '+s[1]+'"><div class="scale"><span>٠ غير راضٍ</span><span>١٠ راضٍ تمامًا</span></div></div><div class="field"><span class="qlabel">أثره على بقية حياتك</span><div class="pills" role="group">'+[1,2,3,4,5].map(function(n){return '<button class="pill" data-a="i" data-id="'+s[0]+'" data-n="'+n+'" aria-pressed="'+(v.i===n)+'">'+ar(n)+'</button>'}).join('')+'</div><div class="scale"><span>١ أثر بسيط</span><span>٥ يغيّر كل شيء</span></div></div>')+'</div>'}).join('');
+  h+='<div class="row between"><button class="btn-text" data-a="'+(V.step?'prev':'cancel')+'">'+(V.step?'السابق':'إلغاء')+'</button><button class="btn btn-gold" data-a="nextstep">'+(V.step<S.areas.length-1?'التالي':'اكتشف عنق الزجاجة')+'</button></div>';
+  return h;
+}
+function resultsHTML(){
+  var all=[];S.areas.forEach(function(a){a.subs.forEach(function(s){var l=leverage(s[0]);if(l>=0)all.push({id:s[0],l:l,a:a})})});
+  all.sort(function(x,y){return y.l-x.l});
+  var top=all.slice(0,3);if(!V.pick&&top[0])V.pick=top[0].id;
+  var h='<div><h2>هذا ما يرشّحه تقييمك</h2><p class="muted">رتّبنا المجالات حسب "قوة الرافعة": المجال الأقل رضًا والأكبر أثرًا يأتي أولًا. القرار لك.</p></div>';
+  h+='<div class="rank">'+top.map(function(x,i){var v=S.scores[x.id];return '<label class="rk'+(V.pick===x.id?' sel':'')+'"><input type="radio" name="pick" data-a="pick" data-id="'+x.id+'"'+(V.pick===x.id?' checked':'')+'><div style="display:flex;flex-direction:column;gap:6px;min-width:0"><div class="row between"><h3>'+ar(i+1)+'. '+subName(x.id)+'</h3><span class="tag">'+x.a.name+'</span></div><p class="small muted">الرضا '+ar(v.s)+' من ١٠ · الأثر '+ar(v.i)+' من ٥</p><div class="track"><span style="width:'+(x.l*2)+'%"></span></div></div></label>'}).join('')+'</div>';
+  h+='<div class="field"><label for="other">أو اختر مجالًا آخر</label><select id="other" data-a="pickother"><option value="">—</option>'+all.slice(3).map(function(x){return '<option value="'+x.id+'"'+(V.pick===x.id?' selected':'')+'>'+subName(x.id)+' ('+x.a.name+')</option>'}).join('')+'</select></div>';
+  h+='<div class="card soft"><p>سؤال يساعدك: لو تحسّن هذا المجال وحده خلال الأشهر الثلاثة القادمة، هل ستصبح المجالات الأخرى أسهل؟</p></div>';
+  h+='<div class="row between"><button class="btn-text" data-a="prev">رجوع للتقييم</button><button class="btn btn-gold" data-a="choose"'+(V.pick?'':' disabled')+'>اعتمد وتابع</button></div>';
+  return h;
+}
+function planHTML(){
+  var p=S.plan||{miles:[]};var m=(p.miles||[]).slice();while(m.length<4)m.push({t:'',d:false});
+  function f(id,label,hint,val,ta){return '<div class="field"><label for="p-'+id+'">'+label+'</label>'+(hint?'<span class="hint">'+hint+'</span>':'')+(ta?'<textarea id="p-'+id+'">'+esc(val)+'</textarea>':'<input type="text" id="p-'+id+'" value="'+esc(val)+'">')+'</div>'}
+  var h='<div class="row"><span class="badge">عنق الزجاجة</span><span class="tag">تركيزك الآن</span></div><h2>خطتك في '+esc(subName(S.bottleneck))+'</h2>';
+  h+='<div class="card">'+f('from','من','أين أنت الآن؟ صف الوضع بجملة واحدة.',p.from)+f('to','إلى','أين تريد أن تصل؟ اجعله قابلًا للقياس.',p.to)+'<div class="field"><label for="p-due">متى تريد أن تصل؟</label><span class="hint">هذا هدف الربع، فاجعله خلال ثلاثة أشهر تقريبًا.</span><input type="date" id="p-due" value="'+(p.due||qEnd())+'"></div>'+f('why','لماذا يهمك هذا؟','',p.why)+'</div>';
+  h+='<div class="card"><h3>محطات الطريق</h3><p class="hint">حدّد من ٣ إلى ٥ محطات واضحة. كل محطة تنجزها ستملأ شريط التقدم.</p>'+m.map(function(x,i){return '<input type="text" id="p-m'+i+'" value="'+esc(x.t)+'" aria-label="المحطة '+ar(i+1)+'" placeholder="المحطة '+ar(i+1)+'">'}).join('')+'<div>'+(m.length<5?'<button class="btn-text" data-a="addmile">أضف محطة</button>':'')+'</div></div>';
+  h+='<div class="card"><h3>ما يساعدك على الوصول</h3>'+f('identity','الهوية','أكمل الجملة: أنا شخص...',p.identity)+f('env','البيئة','شيء واحد تغيّره في محيطك يسهّل الطريق.',p.env)+f('step','خطوة هذا الأسبوع','أصغر خطوة تستطيع فعلها هذا الأسبوع.',p.step)+f('ifthen','إذا... فـ','العائق المتوقع وما ستفعله: إذا حدث كذا، فسأفعل كذا.',p.ifthen)+'</div>';
+  h+='<div class="row between"><button class="btn-text" data-a="cancel">إلغاء</button><button class="btn btn-gold" data-a="saveplan">احفظ الخطة</button></div>';
+  return h;
+}
+function reviewHTML(){
+  var W=wk();W.kept=W.kept||{};
+  var items=W.goals.map(function(g,i){return [wgText(W,i),g.d,i===0]}).filter(function(x){return x[0]});
+  var mins=S.areas.filter(function(a){return S.minimums[a.id]});
+  var h='<h2>مراجعة نهاية الأسبوع</h2><p class="muted">بدون حكم على نفسك. الهدف أن ترى ما حدث وتعدّل الطريق.</p>';
+  h+='<div class="card"><h3>هذا ما أنجزته هذا الأسبوع</h3>'+items.map(function(x){return '<div class="row" style="flex-wrap:nowrap;align-items:flex-start"><span class="tag" style="flex:none">'+(x[1]?'تم':'لم يتم')+'</span><span>'+(x[2]?'<b style="font-weight:500">خطوة عنق الزجاجة:</b> ':'')+esc(x[0])+'</span></div>'}).join('')+(mins.length?'<p class="small muted">حافظت على '+ar(mins.filter(function(a){return W.kept[a.id]}).length)+' من '+ar(mins.length)+' مجالات.</p>':'')+'<p class="hint">لتعديل العلامات، ارجع إلى صفحة المراجعة الأسبوعية.</p></div>';
+  h+='<div class="card"><div class="field"><label for="rnote">ما الذي ساعدك هذا الأسبوع، وما الذي عطّلك؟</label><textarea id="rnote"></textarea></div><div class="field"><label for="rnext">ما الذي ستغيّره الأسبوع القادم؟</label><textarea id="rnext"></textarea></div></div>';
+  h+='<div class="row between"><button class="btn-text" data-a="cancel">رجوع</button><button class="btn btn-gold" data-a="saverev">سجّل المراجعة</button></div>';
+  return h;
+}
+function editHTML(){
+  var d=V.draft;
+  var h='<h2>'+(d.isNew?'مجال جديد':'تعديل المجال')+'</h2><p class="muted">أضف قسمًا، أو عدّل اسمه، أو احذف ما لا يناسب حياتك.</p>';
+  var core=CORE.indexOf(d.id)>=0;
+  h+=core?'<div class="card soft"><h3>'+esc(d.name)+'</h3><p class="small">هذا من المجالات الأساسية، فاسمه ثابت. يمكنك تعديل أقسامه.</p></div>':'<div class="card"><div class="field"><label for="dname">اسم المجال</label><input type="text" id="dname" data-a="dname" value="'+esc(d.name)+'" placeholder="مثال: المجتمع والعطاء"></div></div>';
+  h+='<div class="card"><h3>الأقسام</h3><p class="hint">كل قسم ستقيّمه في التقييم القادم.</p>'+d.subs.map(function(x,i){var b=x.id===S.bottleneck;return '<div class="row" style="flex-wrap:nowrap"><input type="text" id="ds-'+x.id+'" data-a="dsub" data-i="'+i+'" value="'+esc(x.name)+'" aria-label="القسم '+ar(i+1)+'" placeholder="اسم القسم">'+(b?'<span class="tag" style="white-space:nowrap">عنق الزجاجة</span>':'<button class="btn-text" data-a="ddel" data-i="'+i+'">حذف</button>')+'</div>'}).join('')+'<div><button class="btn-text" data-a="dadd">أضف قسمًا</button></div></div>';
+  if(V.editErr)h+='<p class="small" style="color:var(--deep)">'+V.editErr+'</p>';
+  h+='<div class="row between"><button class="btn-text" data-a="cancel">إلغاء</button><button class="btn btn-gold" data-a="dsave">احفظ</button></div>';
+  var hasB=d.subs.some(function(x){return x.id===S.bottleneck});
+  if(!d.isNew&&!hasB&&!core)h+='<div class="row">'+(V.confirmDel?'<span class="small">سيُحذف المجال وتقييماته.</span><button class="btn-text" data-a="dremoveyes">نعم، احذف المجال</button><button class="btn-text" data-a="dremoveno">إلغاء</button>':'<button class="btn-text" data-a="dremove">حذف هذا المجال</button>')+'</div>';
+  return h;
+}
+function isStandalone(){try{return (window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true}catch(e){return false}}
+function isMobile(){return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent||'')}
+function installBanner(){
+  var off=false;try{off=localStorage.getItem('lifePlanner.noInstall')==='1'}catch(e){}
+  if(off||isStandalone()||!isMobile())return '';
+  return '<div class="demo"><p>أضف مخطط الحياة لشاشتك الرئيسية، ليفتح كتطبيق وتبقى بياناتك في مكان واحد.</p><div class="row"><button class="btn btn-purple" data-a="help">كيف؟</button><button class="btn-text" data-a="noinstall">لاحقًا</button></div></div>';
+}
+function helpHTML(){
+  var faq=[
+   ['أين تُحفظ بياناتي؟','على جهازك فقط، داخل التطبيق أو المتصفح الذي تستخدمه. لا تُرسل إلى أي مكان، ولا يراها أحد غيرك.'],
+   ['اختفت بياناتي، ماذا أفعل؟','غالبًا لأحد هذه الأسباب: فتحت الأداة من المتصفح بدل الأيقونة أو العكس، أو من جهاز أو متصفح آخر، أو استخدمت التصفح الخفي، أو مُسحت بيانات المتصفح. افتحها من المكان الذي بدأت فيه، أو استرجع آخر نسخة احتياطية من أسفل صفحة مجالات حياتي.'],
+   ['كيف أنقل بياناتي إلى جوال آخر؟','من أسفل صفحة مجالات حياتي، اضغط "انسخ رمز النسخة" واحفظ الرمز في ملاحظاتك أو أرسله لنفسك. في الجهاز الجديد، اضغط "استرجاع نسخة" والصق الرمز.'],
+   ['كم مرة أحفظ نسخة احتياطية؟','مرة كل أسبوع بعد المراجعة الأسبوعية. خطوة تأخذ ثوانٍ وتحميك من فقدان كل شيء.'],
+   ['هل تعمل الأداة بدون إنترنت؟','نعم، بعد أول مرة تفتحها فيها.'],
+   ['هل يمكنني تعديل المجالات؟','المجالات الخمسة الأساسية ثابتة، ويمكنك تعديل أقسامها وإضافة مجالات جديدة من صفحة مجالات حياتي.'],
+   ['كيف أبدأ من جديد؟','من أسفل صفحة مجالات حياتي، اضغط "حذف بياناتي". احفظ نسخة احتياطية قبلها إن أردت الرجوع إليها.']
+  ];
+  var h='<h2>المساعدة</h2>';
+  h+='<div class="card"><h3>أضف مخطط الحياة لشاشتك الرئيسية</h3><p class="small muted">ليفتح كتطبيق بأيقونته، بدون شريط المتصفح.</p>';
+  h+='<div class="grid2"><div class="lever"><span>آيفون</span><ol class="steps-list"><li>افتح الرابط في <b>سفاري</b>.</li><li>اضغط زر المشاركة أسفل الشاشة (مربع وفوقه سهم).</li><li>اختر <b>إضافة إلى الشاشة الرئيسية</b>.</li><li>اضغط <b>إضافة</b>.</li></ol></div>';
+  h+='<div class="lever"><span>أندرويد</span><ol class="steps-list"><li>افتح الرابط في <b>كروم</b>.</li><li>اضغط القائمة ⋮ أعلى الشاشة.</li><li>اختر <b>تثبيت التطبيق</b> أو <b>إضافة إلى الشاشة الرئيسية</b>.</li><li>أكّد الإضافة.</li></ol></div></div>';
+  h+='<div class="card soft"><p><b style="font-weight:500">مهم:</b> البيانات داخل التطبيق منفصلة عن بيانات المتصفح. أضف الأداة لشاشتك قبل أن تبدأ، ثم افتحها دائمًا من الأيقونة. إذا بدأت في المتصفح، انقل بياناتك برمز النسخة الاحتياطية.</p></div></div>';
+  h+='<div class="card"><h3>أسئلة شائعة</h3><div class="faq">'+faq.map(function(f){return '<details><summary>'+f[0]+'</summary><p>'+f[1]+'</p></details>'}).join('')+'</div></div>';
+  h+='<div><button class="btn btn-ghost" data-a="cancel">رجوع</button></div>';
+  return h;
+}
+function minHTML(){
+  var a=S.areas.filter(function(x){return x.id===V.minId})[0];
+  return '<h2>الحد الأدنى: '+a.name+'</h2><div class="card"><div class="field"><label for="minv">ما أقل شيء تلتزم به أسبوعيًا لتحافظ على هذا المجال؟</label><span class="hint">مثال: مكالمة للوالدين كل أسبوع.</span><input type="text" id="minv" value="'+esc(S.minimums[a.id]||'')+'"></div></div><div class="row between"><button class="btn-text" data-a="cancel">إلغاء</button><button class="btn btn-gold" data-a="savemin">احفظ</button></div>';
+}
+
+function summary(){
+  var L=level(),t='أنت مساعد كوتشنج هادئ وعملي. هذه بيانات تقييمي لحياتي من أداة «مخطط الحياة».\n\nحلّلها وأجبني بلغة بسيطة ودافئة وبدون مبالغة:\n١. هل اختياري لعنق الزجاجة منطقي بناءً على الأرقام؟ ولماذا؟\n٢. كيف يؤثر هذا المجال على بقية المجالات؟\n٣. اقترح ٣ خطوات صغيرة للأسبوعين القادمين.\n٤. ما العائق الأكثر احتمالًا، وكيف أتجاوزه؟\n\n— التقييم (الرضا من ١٠، الأثر من ٥) —\n';
+  S.areas.forEach(function(a){t+='\n'+a.name+':\n';a.subs.forEach(function(s){var v=S.scores[s[0]];t+='- '+s[1]+': '+(!v?'لم يقيّم':v.na?'لا ينطبق':'الرضا '+v.s+'، الأثر '+v.i)+'\n'});if(S.minimums[a.id])t+='  الحد الأدنى: '+S.minimums[a.id]+'\n'});
+  if(S.bottleneck){var p=S.plan||{};t+='\n— عنق الزجاجة: '+subName(S.bottleneck)+' —\nمن: '+(p.from||'')+'\nإلى: '+(p.to||'')+'\nلماذا: '+(p.why||'')+'\nالهوية: '+(p.identity||'')+'\nالبيئة: '+(p.env||'')+'\nخطوة الأسبوع: '+(p.step||'')+'\nإذا... فـ: '+(p.ifthen||'')+'\nالمحطات:\n'+(p.miles||[]).map(function(m){return '- ['+(m.d?'تم':'لم يتم')+'] '+m.t}).join('\n')+'\n';}
+  var G=S.goals||{};t+='\n— الأهداف عبر الزمن —\nالغاية: '+((G.purpose||{}).t||'')+'\n';[['y3','هدف ٣ سنوات'],['y1','هدف السنة']].forEach(function(x){var g=G[x[0]]||{};t+=x[1]+': '+(g.t||'')+(g.m?' · المقياس: '+g.m:'')+(g.cur!=null?' · الحالي '+g.cur:'')+(g.target!=null?' · المستهدف '+g.target:'')+(g.due?' · الموعد '+g.due:'')+'\n'});if(S.plan)t+='هدف الربع (عنق الزجاجة): '+(S.plan.to||'')+' · الموعد '+(S.plan.due||'')+'\n';
+  var last=S.reviews.slice(-4);if(last.length){t+='\n— آخر المراجعات —\n'+last.map(function(r){return '- خطوة الأسبوع: '+({yes:'نعم',half:'جزئيًا',no:'ليس بعد'}[r.step])+(r.note?' · ملاحظة: '+r.note:'')+(r.next?' · سأغيّر: '+r.next:'')}).join('\n')+'\n'}
+  t+='\nالدورة '+cyc()+'، المستوى '+L.n+' من 7 ('+L.name+')، المراجعات المتتالية: '+streak()+' أسابيع.';
+  return t;
+}
+function encode(o){return btoa(unescape(encodeURIComponent(JSON.stringify(o))))}
+function decode(s){return JSON.parse(decodeURIComponent(escape(atob(s.trim()))))}
+
+/* ---------- render & events ---------- */
+var app=document.getElementById('app');
+function render(){
+  var body={dash:dashHTML,assess:assessHTML,results:resultsHTML,plan:planHTML,review:reviewHTML,min:minHTML,edit:editHTML,goal:goalHTML,help:helpHTML}[V.view]();
+  var foot='<footer><div class="row between"><p>مخطط الحياة</p><button class="btn-text" data-a="help">المساعدة والأسئلة الشائعة</button></div><p>بياناتك محفوظة على هذا المتصفح فقط، ولا يراها أحد غيرك.'+(storageOk?'':' الحفظ غير متاح في هذا المتصفح، لذلك احفظ نسخة احتياطية قبل إغلاق الصفحة.')+'</p></footer>';
+  app.innerHTML=headerHTML()+body+foot;
+}
+function go(view){V.view=view;render();window.scrollTo(0,0)}
+function val(id){var e=document.getElementById(id);return e?e.value.trim():''}
+
+app.addEventListener('input',function(e){var t=e.target;if(t.dataset.a==='dname'){V.draft.name=t.value;return}if(t.dataset.a==='dsub'){V.draft.subs[+t.dataset.i].name=t.value;return}if(t.dataset.a==='s'){S.scores[t.dataset.id].s=+t.value;document.getElementById('sv-'+t.dataset.id).textContent=ar(t.value)}});
+app.addEventListener('change',function(e){var t=e.target,a=t.dataset.a;
+  if(a==='na'){S.scores[t.dataset.id].na=t.checked;render()}
+  else if(a==='mile'){var m=S.plan.miles[+t.dataset.i];m.d=t.checked;
+    if(t.checked){award(1,'أنجزت محطة');giveBadge('m1');var all=S.plan.miles.every(function(x){return x.d});if(all&&S.badges.indexOf('goal')<0){giveBadge('goal');award(1,'حققت هدفك')}}
+    
+    save();render()}
+  else if(a==='wg-check'){var W=wk(),g=W.goals[+t.dataset.i];g.d=t.checked;if(t.checked)award(1,'أنجزت هدفًا أسبوعيًا');save();render()}
+  else if(a==='wg-text'){var W2=wk();W2.goals[+t.dataset.i].t=t.value.trim();if(!t.value.trim())W2.goals[+t.dataset.i].d=false;save();render()}
+  else if(a==='dt-check'){var L1=wk().days[V.day];L1[+t.dataset.i].d=t.checked;if(t.checked)award(1,'أنجزت مهمة');save();render()}
+  else if(a==='dt-text'){var L2=wk().days[V.day];if(t.value.trim())L2[+t.dataset.i].t=t.value.trim();save()}
+  else if(a==='wk-kept'){var Wk=wk();Wk.kept=Wk.kept||{};Wk.kept[t.dataset.id]=t.checked;if(t.checked)award(1,'حافظت على مجالك');save();render()}
+  else if(a==='pick'){V.pick=t.dataset.id;render()}
+  else if(a==='pickother'){if(t.value){V.pick=t.value;render()}}
+  else if(a==='rkept'){V.rkept=V.rkept||[];var i=V.rkept.indexOf(t.dataset.id);if(t.checked&&i<0)V.rkept.push(t.dataset.id);if(!t.checked&&i>=0)V.rkept.splice(i,1)}
+});
+app.addEventListener('click',function(e){var t=e.target.closest('[data-a]');if(!t||t.tagName==='INPUT'||t.tagName==='SELECT')return;var a=t.dataset.a;
+  switch(a){
+  case 'start':S=blank();V.step=0;V.pick=null;go('assess');break;
+  case 'assess':V.step=0;V.pick=null;go('assess');break;
+  case 'next':if(S.plan&&S.bottleneck)S.history.push({id:S.bottleneck,to:S.plan.to,date:new Date().toISOString().slice(0,10)});S.plan=null;S.bottleneck=null;S.assessed=false;S.cycle=cyc()+1;S.badges=S.badges.filter(function(b){return b!=='goal'});save();V.step=0;V.pick=null;go('assess');break;
+  case 'i':S.scores[t.dataset.id].i=+t.dataset.n;t.parentNode.querySelectorAll('.pill').forEach(function(p){p.setAttribute('aria-pressed',p===t)});break;
+  case 'nextstep':if(V.step<S.areas.length-1){V.step++;go('assess')}else{S.assessed=true;go('results')}break;
+  case 'prev':if(V.view==='results'){V.step=S.areas.length-1;go('assess')}else{V.step--;go('assess')}break;
+  case 'cancel':if(V.view==='assess'&&!S.bottleneck&&!store){S=demo()}go('dash');break;
+  case 'choose':var first=!S.lastAssess;S.bottleneck=V.pick;S.lastAssess=new Date().toISOString().slice(0,10);S.demo=false;if(S.badges.indexOf('assess')<0){giveBadge('assess');award(XP.assess,'أول تقييم')}store=S;save();go('plan');break;
+  case 'plan':go('plan');break;
+  case 'addmile':var ms=[];for(var i=0;i<5;i++){var v=document.getElementById('p-m'+i);if(v)ms.push(v.value)}S.plan=collectPlan();S.plan.miles.push({t:'',d:false});go('plan');break;
+  case 'saveplan':var np=collectPlan();np.miles=np.miles.filter(function(x){return x.t});S.plan=np;if(S.badges.indexOf('plan')<0){giveBadge('plan');award(XP.plan,'خطة واضحة')}save();go('dash');break;
+  case 'edit':var ea=S.areas.filter(function(x){return x.id===t.dataset.id})[0];V.draft={id:ea.id,name:ea.name,isNew:false,subs:ea.subs.map(function(x){return {id:x[0],name:x[1]}})};V.editErr='';V.confirmDel=false;go('edit');break;
+  case 'addarea':V.draft={id:'a'+Date.now(),name:'',isNew:true,subs:[{id:'c'+Date.now(),name:''}]};V.editErr='';go('edit');break;
+  case 'dadd':V.draft.subs.push({id:'c'+Date.now()+Math.random().toString(36).slice(2,6),name:''});render();var last=V.draft.subs[V.draft.subs.length-1];var el=document.getElementById('ds-'+last.id);if(el)el.focus();break;
+  case 'ddel':V.draft.subs.splice(+t.dataset.i,1);render();break;
+  case 'dsave':var dd=V.draft,subs=dd.subs.filter(function(x){return x.name.trim()});
+    if(!dd.name.trim()){V.editErr='اكتب اسمًا للمجال.';render();break}
+    if(!subs.length){V.editErr='أضف قسمًا واحدًا على الأقل.';render();break}
+    var nsubs=subs.map(function(x){return [x.id,x.name.trim()]});
+    if(dd.isNew)S.areas.push({id:dd.id,name:dd.name.trim(),icon:'custom',subs:nsubs});
+    else{var ar0=S.areas.filter(function(x){return x.id===dd.id})[0];ar0.subs.forEach(function(x){if(!nsubs.some(function(y){return y[0]===x[0]}))delete S.scores[x[0]]});ar0.name=dd.name.trim();ar0.subs=nsubs}
+    save();toast('حُفظت التعديلات');go('dash');break;
+  case 'dremove':V.confirmDel=true;render();break;
+  case 'dremoveno':V.confirmDel=false;render();break;
+  case 'dremoveyes':var rid=V.draft.id;S.areas=S.areas.filter(function(x){if(x.id===rid){x.subs.forEach(function(y){delete S.scores[y[0]]});return false}return true});delete S.minimums[rid];V.confirmDel=false;save();go('dash');break;
+  case 'help':go('help');break;
+  case 'noinstall':try{localStorage.setItem('lifePlanner.noInstall','1')}catch(err){}render();break;
+  case 'tab':V.tab=t.dataset.v;render();window.scrollTo(0,0);break;
+  case 'day':V.day=t.dataset.v;render();break;
+  case 'dt-add':addTask();break;
+  case 'dt-del':wk().days[V.day].splice(+t.dataset.i,1);save();render();break;
+  case 'goal':V.gk=t.dataset.k;go('goal');break;
+  case 'gsave':var gk=V.gk,ng={t:val('g-t')};if(gk!=='purpose'){ng.m=val('g-m');ng.cur=num(val('g-cur'));ng.target=num(val('g-target'));ng.due=val('g-due')}S.goals[gk]=ng;save();V.tab='exec';toast('حُفظ الهدف');go('dash');break;
+  case 'min':V.minId=t.dataset.id;go('min');break;
+  case 'savemin':S.minimums[V.minId]=val('minv');save();go('dash');break;
+  case 'review':go('review');break;
+  case 'rstep':V.rstep=t.dataset.v;t.parentNode.querySelectorAll('.pill').forEach(function(p){p.setAttribute('aria-pressed',p===t)});document.querySelector('[data-a=saverev]').disabled=false;break;
+  case 'saverev':var Wr=wk();Wr.kept=Wr.kept||{};
+    S.reviews.push({c:cyc(),w:weekIdx(),step:Wr.goals[0].d?'yes':'no',kept:Object.keys(Wr.kept).filter(function(k){return Wr.kept[k]}),note:val('rnote'),next:val('rnext')});if(streak()>=4)giveBadge('s4');award(1,'سجّلت مراجعتك');save();V.tab='week';go('dash');break;
+  case 'copy':var txt=summary();V.copyFail=false;
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){V.copied=true;render();setTimeout(function(){V.copied=false;render()},2500)},function(){V.copyFail=true;render()})}else{V.copyFail=true;render()}break;
+  case 'bcopy':var code=encode(S);V.bcode=null;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(function(){toast('نُسخ رمز النسخة. احفظه في مكان آمن')},function(){V.bcode=code;render()})}else{V.bcode=code;render()}break;
+  case 'bopen':V.backupOpen=!V.backupOpen;V.restoreErr='';render();break;
+  case 'restore':try{var o=decode(val('restore'));if(!o||!o.scores)throw 0;S=migrate(o);S.demo=false;store=S;save();V.backupOpen=false;toast('استرجعنا بياناتك');go('dash')}catch(err){V.restoreErr='هذا الرمز غير صالح. تأكد أنك نسخته كاملًا.';render()}break;
+  case 'reset':V.confirmReset=true;render();break;
+  case 'resetno':V.confirmReset=false;render();break;
+  case 'resetyes':try{localStorage.removeItem(KEY)}catch(err){}store=null;S=demo();V.confirmReset=false;go('dash');break;
+  }
+});
+function addTask(){var el=document.getElementById('dt-new');if(!el||!el.value.trim())return;var W=wk();W.days[V.day]=W.days[V.day]||[];if(W.days[V.day].length>=3)return;W.days[V.day].push({t:el.value.trim(),d:false});save();render();var n=document.getElementById('dt-new');if(n)n.focus()}
+app.addEventListener('toggle',function(e){var t=e.target;if(t.classList&&t.classList.contains('area'))V.open[t.dataset.id]=t.open},true);
+app.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id==='dt-new'){e.preventDefault();addTask()}});
+function collectPlan(){var old=S.plan||{miles:[]},ms=[];for(var i=0;i<5;i++){var el=document.getElementById('p-m'+i);if(el)ms.push({t:el.value.trim(),d:!!(old.miles[i]&&old.miles[i].d&&old.miles[i].t===el.value.trim())})}
+  return {from:val('p-from'),to:val('p-to'),why:val('p-why'),identity:val('p-identity'),env:val('p-env'),step:val('p-step'),ifthen:val('p-ifthen'),due:val('p-due'),miles:ms}}
+render();
+})();
+</script>
+
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
+</script>
+</body>
+</html>
